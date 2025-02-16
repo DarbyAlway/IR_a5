@@ -1,28 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search Results</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .result { margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #ddd; }
-        .result h3 { margin: 0; }
-        .result p { margin: 5px 0; }
-        .back-button { margin-top: 20px; display: inline-block; padding: 10px 15px; background: #007bff; color: white; text-decoration: none; }
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+      }
+
+      .container {
+        width: 80%;
+        margin: 0 auto;
+        padding-top: 20px;
+      }
+
+      .header {
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .header p {
+        color: #555;
+        font-size: 16px;
+      }
+
+      .results-section {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .results-container {
+        width: 48%;
+      }
+
+      .results-container h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      .result-item {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .result-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #1a73e8;
+        text-decoration: none;
+      }
+
+      .result-title:hover {
+        text-decoration: underline;
+      }
+
+      .result-url {
+        color: #006621;
+        font-size: 14px;
+        margin: 5px 0;
+      }
+
+      .text-snippet {
+        color: #555;
+        font-size: 14px;
+      }
+
+      .result-list {
+        margin-top: 10px;
+      }
     </style>
-</head>
-<body>
-    <h2>Search Results for "{{ query }}"</h2>
-    <p>Found {{ total_hit }} results in {{ "%.2f"|format(elapse) }} seconds</p>
-
-    {% for result in results %}
-        <div class="result">
-            <h3><a href="{{ result.url }}" target="_blank">{{ result.title }}</a></h3>
-            <p>{{ result.text }}...</p>
+  </head>
+  <body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Search Results for "{{ query }}"</h1>
+            <p>
+                Total results: {{ total_hit }} found in {{ elapse|round(2) }} seconds.
+            </p>
         </div>
-    {% endfor %}
 
-    <a href="/" class="back-button">Back to Search</a>
+        <!-- Search Results Section -->
+        <div class="results-section">
+            <!-- PageRank Results -->
+            <div class="results-container">
+                <h2>PageRank Results</h2>
+                <div class="result-list">
+                    {% for result in pr_results %}
+                        <h3><a href="{{ result.url }}">{{ result.title | safe }}</a></h3>
+                        <p>{{ result.text | safe }}</p>  <!-- Use |safe to render HTML -->
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- TF-IDF Results -->
+            <div class="results-container">
+                <h2>TF-IDF Results</h2>
+                <div class="result-list">
+                    {% for result in tfidf_results %}
+                        <h3><a href="{{ result.url }}">{{ result.title | safe }}</a></h3>
+                        <p>{{ result.text | safe }}</p>  <!-- Add `|safe` here -->
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
