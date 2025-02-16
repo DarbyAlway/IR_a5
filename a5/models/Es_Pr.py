@@ -11,7 +11,7 @@ from elasticsearch.helpers import bulk
 
 class IndexerWithPR:
     def __init__(self):
-        self.crawled_folder = Path('C:/Users/user/Documents/Year3_2/IR/resources/crawled')
+        self.crawled_folder = Path('a5/resources/crawled')
         self.indexed_data_path = "indexed_data.pkl"
         
         # Load URL mapping

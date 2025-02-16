@@ -6,7 +6,7 @@ from elasticsearch import Elasticsearch, helpers
 
 class TfIdfRanker:
     def __init__(self):
-        self.crawled_folder = Path('resources/crawled')
+        self.crawled_folder = Path('a5/resources/crawled')
         
         # Load file_mapper for file paths
         with open(self.crawled_folder / 'url_list.pickle', 'rb') as f:
@@ -18,7 +18,7 @@ class TfIdfRanker:
                                        ca_certs="~/http_ca.crt")
         
         # Load PageRank instance
-        with open('pr_instance.pkl', 'rb') as f:
+        with open('a5/pickled/pr_instance.pkl', 'rb') as f:
             self.pr = pickle.load(f)
 
     def run_indexer(self):

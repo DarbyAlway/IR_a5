@@ -63,7 +63,6 @@ def search_es_pr():
             'title': highlight_query(hit["_source"]['title'], query_term),
             'url': hit["_source"]['url'],
             'text': highlight_query(hit["_source"]['text'], query_term),
-            'score': hit["_score"],  # PageRank-based score
         }
         for hit in es_results['hits']['hits']
     ]
@@ -86,16 +85,15 @@ def search_es_pr():
             'title': highlight_query(hit["_source"]['title'], query_term),
             'url': hit["_source"]['url'],
             'text': highlight_query(hit["_source"]['text'], query_term),
-            'score': hit["_score"],  # TF-IDF-based score
         }
         for hit in tfidf_results['hits']['hits']
     ]
 
     # Combine both sets of results (Here we just concatenate them)
     combined_results = es_results_list + tfidf_results_list
-
+    print(combined_results)
     # Sort the combined results by score, if desired
-    combined_results = sorted(combined_results, key=lambda x: x['score'], reverse=True)
+    combined_results = sorted(combined_results, key=lambda x: x.get('score', 0), reverse=True)
 
     # Get total hit count (You may want to count unique results)
     total_hit = len(combined_results)
